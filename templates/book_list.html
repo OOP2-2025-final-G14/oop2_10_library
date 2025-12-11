@@ -23,8 +23,6 @@
           <th>タイトル</th>
           <th>著者</th>
           <th>出版社</th>
-          <th>出版年</th>
-          <th>ISBN</th>
         </tr>
       </thead>
       <tbody>
@@ -34,8 +32,6 @@
           <td>{{ b.title }}</td>
           <td>{{ b.author }}</td>
           <td>{{ b.publisher.name if b.publisher else '-' }}</td>
-          <td>{{ b.published_year or '-' }}</td>
-          <td>{{ b.isbn or '-' }}</td>
         </tr>
         {% endfor %}
       </tbody>
