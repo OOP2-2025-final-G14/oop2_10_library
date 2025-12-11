@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>出版社編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>出版社を編集</h1>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('index') }}">HOME</a></li>
+        <li><a href="{{ url_for('publisher.list') }}">出版社一覧</a></li>
+        <li>出版社編集</li>
+    </ul>
+
+    <form action="{{ url_for('publisher.edit', publisher_id=publisher.id) }}" method="post">
+        <label>社名: <input type="text" name="name" value="{{ publisher.name }}" required></label><br>
+        <label>出版社番号: <input type="number" name="number" value="{{ publisher.number }}" required></label><br>
+        <button type="submit">保存</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>データ一覧</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('index') }}">HOME</a></li>
+        <li><a href="{{ url_for('publisher.list') }}">出版社一覧</a></li>
+    </ul>
+
+    <a href="{{ url_for('publisher.add') }}">出版社追加</a>
+    <table>
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>社名</th>
+                <th>出版社番号</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher in items %}
+            <tr>
+                <td><a href="{{ url_for('publisher.edit', publisher_id=publisher.id) }}">編集</a></td>
+                <td>{{ publisher.name }}</td>
+                <td>{{ publisher.number }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
