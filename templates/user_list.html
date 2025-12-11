@@ -17,6 +17,7 @@
         <thead>
             <tr>
                 <th>&nbsp;</th>
+                <th>ID</th>
                 <th>名前</th>
                 <th>年齢</th>
             </tr>
@@ -25,6 +26,7 @@
             {% for user in items %}
             <tr>
                 <td><a href="{{ url_for('user.edit', user_id=user.id) }}">編集</a></td>
+                <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.age }}</td>
             </tr>
