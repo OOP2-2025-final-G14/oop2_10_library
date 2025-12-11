@@ -4,7 +4,7 @@ from models import User
 # Blueprintの作成
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 
-
+# ユーザー一覧表示
 @user_bp.route('/')
 def list():
     
@@ -13,19 +13,20 @@ def list():
 
     return render_template('user_list.html', title='ユーザー一覧', items=users)
 
-
+# ユーザーの新規追加
 @user_bp.route('/add', methods=['GET', 'POST'])
 def add():
     
     if request.method == 'POST':
+        user_id = request.form['user_id']
         name = request.form['name']
         age = request.form['age']
-        User.create(name=name, age=age)
+        User.create(id=user_id,name=name, age=age)
         return redirect(url_for('user.list'))
     
     return render_template('user_add.html')
 
-
+# ユーザー情報の編集
 @user_bp.route('/edit/<int:user_id>', methods=['GET', 'POST'])
 def edit(user_id):
     user = User.get_or_none(User.id == user_id)
