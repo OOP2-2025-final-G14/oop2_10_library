@@ -68,16 +68,6 @@ def edit(borrow_id):
     )
 
 
-# 削除
-@borrow_bp.route('/delete/<int:borrow_id>')
-def delete(borrow_id):
-    borrow = Borrow.get_or_none(Borrow.id == borrow_id)
-    if borrow:
-        borrow.delete_instance()
-
-    return redirect(url_for('borrow.list'))
-
-
 # 返却（今日の日付を自動セット）
 @borrow_bp.route('/return/<int:borrow_id>')
 def do_return(borrow_id):
