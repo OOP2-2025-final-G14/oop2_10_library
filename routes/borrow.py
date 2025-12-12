@@ -22,13 +22,12 @@ def add():
         user_id = int(request.form['user_id'])
         book_id = int(request.form['book_id'])
         borrow_date = request.form.get('borrow_date')
-        return_date = request.form.get('return_date') or None
 
         Borrow.create(
             user=user_id,
             book=book_id,
             borrow_date=borrow_date,
-            return_date=return_date
+            return_date=None
         )
         return redirect(url_for('borrow.list'))
 
@@ -79,8 +78,7 @@ def delete(borrow_id):
     return redirect(url_for('borrow.list'))
 
 
-
-# 返却（return_date を今日に変更）
+# 返却（今日の日付を自動セット）
 @borrow_bp.route('/return/<int:borrow_id>')
 def do_return(borrow_id):
     borrow = Borrow.get_or_none(Borrow.id == borrow_id)
