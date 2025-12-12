@@ -14,16 +14,19 @@
 
 > 動作に必要な条件を書いてください。
 
+```
 python 3.13.7
 
 # python lib
 Flask==3.0.3
 peewee==3.17.7
+```
 
 ## 使い方: usage
 
 > このリポジトリのアプリを動作させるために行う手順を詳細に書いてください。
 
-
+```
 $ python app.py
 # Try accessing "http://localhost:8080" in your browser.
+```
