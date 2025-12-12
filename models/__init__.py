@@ -1,22 +1,16 @@
-from peewee import SqliteDatabase
 from .db import db
 from .user import User
-from .product import Product
-from .order import Order
-from .publisher import Publisher
 from .book import Book
+from .borrow import Borrow
+from .publisher import Publisher
 
-# モデルのリストを定義しておくと、後でまとめて登録しやすくなります
 MODELS = [
     User,
-    Product,
-    Order,
     Publisher,
     Book,
-
+    Borrow
 ]
 
-# データベースの初期化関数
 def initialize_database():
     db.connect()
     db.create_tables(MODELS, safe=True)

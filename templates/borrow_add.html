@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>貸出登録</title>
+</head>
+<body>
+<h1>貸出登録</h1>
+
+<form action="{{ url_for('borrow.add') }}" method="POST">
+
+    <label>ユーザー：</label>
+    <select name="user_id" required>
+        <option value="">選択してください</option>
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.name }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <label>本：</label>
+    <select name="book_id" required>
+        <option value="">選択してください</option>
+        {% for book in books %}
+        <option value="{{ book.id }}">{{ book.title }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <label>貸出日：</label>
+    <input type="date" name="borrow_date" value="{{ today }}" required>
+    <br><br>
+
+    <button type="submit">登録</button>
+</form>
+
+<br>
+<a href="{{ url_for('borrow.list') }}">戻る</a>
+
+</body>
+</html>

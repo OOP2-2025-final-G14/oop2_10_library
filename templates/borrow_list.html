@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>貸出一覧</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+<h1>貸出一覧</h1>
+
+<ul class="breadcrumb">
+  <li><a href="{{ url_for('index') }}">HOME</a></li>
+  <li>貸出一覧</li>
+</ul>
+
+<a href="{{ url_for('borrow.add') }}">新しい貸出を登録</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>利用者</th>
+            <th>書籍</th>
+            <th>貸出日</th>
+            <th>返却日</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in borrows %}
+        <tr>
+            <td>{{ b.user.name }}</td>
+            <td>{{ b.book.title }}</td>
+            <td>{{ b.borrow_date }}</td>
+            <td>{{ b.return_date if b.return_date else '未返却' }}</td>
+            <td>
+                {% if not b.return_date %}
+                <a href="{{ url_for('borrow.do_return', borrow_id=b.id) }}">返却</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>本の編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>本を編集</h1>
+
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('index') }}">HOME</a></li>
+        <li><a href="{{ url_for('book.list') }}">本一覧</a></li>
+        <li>本の編集</li>
+    </ul>
+
+    <form action="{{ url_for('book.edit', book_id=book.id) }}" method="post">
+        <label>タイトル:
+            <input type="text" name="title" value="{{ book.title }}" required>
+        </label>
+        <br>
+
+        <label>著者:
+            <input type="text" name="author" value="{{ book.author }}" required>
+        </label>
+        <br>
+
+        <label>出版社:
+            <select name="publisher_id">
+                <option value="">--未選択--</option>
+                {% for p in publishers %}
+                    <option value="{{ p.id }}"
+                        {% if book.publisher and p.id == book.publisher.id %}selected{% endif %}
+                    >{{ p.name }}</option>
+                {% endfor %}
+            </select>
+            <a href="{{ url_for('publisher.add') }}">出版社を追加</a>
+        </label>
+        <br>
+
+        <label>出版年:
+            <input type="number" name="published_year"
+                   value="{{ book.published_year if book.published_year else '' }}"
+                   min="0">
+        </label>
+        <br>
+
+        <label>ISBN:
+            <input type="text" name="isbn" value="{{ book.isbn if book.isbn else '' }}">
+        </label>
+        <br>
+
+        <button type="submit">保存</button>
+    </form>
+</body>
+</html>
