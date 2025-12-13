@@ -15,6 +15,14 @@
 
 <a href="{{ url_for('borrow.add') }}">新しい貸出を登録</a>
 
+<form action="{{ url_for('borrow.delete_all') }}" method="post"
+      onsubmit="return confirm('履歴を削除しますか？');">
+
+    <button type="submit">
+        履歴を全削除
+    </button>
+</form>
+
 <table>
     <thead>
         <tr>

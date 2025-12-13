@@ -77,3 +77,9 @@ def do_return(borrow_id):
         borrow.save()
 
     return redirect(url_for('borrow.list'))
+
+#履歴削除
+@borrow_bp.route('/delete_all', methods=['POST'])
+def delete_all():
+    Borrow.delete().execute()   # 全削除
+    return redirect(url_for('borrow.list'))
