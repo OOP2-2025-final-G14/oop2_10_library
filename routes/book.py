@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from models import Book, Publisher
+from models import Book, Publisher, Borrow
+from peewee import fn
 
 book_bp = Blueprint('book', __name__, url_prefix='/books')
 
@@ -13,7 +14,7 @@ def add():
     if request.method == 'POST':
         title = request.form['title']
         author = request.form['author']
-        publisher_id = request.form.get('publisher_id')  # 空の可能性あり
+        publisher_id = request.form.get('publisher_id')
         published_year = request.form.get('published_year') or None
         isbn = request.form.get('isbn') or None
 
@@ -56,3 +57,18 @@ def edit(book_id):
 
     publishers = Publisher.select()
     return render_template('book_edit.html', book=book, publishers=publishers)
+
+@book_bp.route('/ranking')
+def ranking():
+    ranking = (
+        Borrow
+        .select(
+            Book,
+            fn.COUNT(Borrow.id).alias('borrow_count')
+        )
+        .join(Book)
+        .group_by(Book)
+        .order_by(fn.COUNT(Borrow.id).desc())
+    )
+
+    return render_template('book_ranking.html', ranking=ranking)
