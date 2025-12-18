@@ -13,7 +13,56 @@
 <h2>📊 利用状況ダッシュボード</h2>
 
 <h3>出版社別 貸出回数</h3>
-<canvas id="publisherChart"></canvas>
+  <div class="chart-container">
+      <canvas id="myPieChart"></canvas>
+  </div>
+
+  <script>
+      // 3. Flaskから渡されたデータを受け取る
+      // | tojson を使うことで、PythonのリストをJSの配列に変換します
+      const labels = '{{ labels | tojson }}'.replace(/&quot;/g, '"').slice(1, -1).split(',');
+      const data = `{{ data | tojson }}`.replace(/&quot;/g, '"').slice(1, -1).split(',').map(Number);
+
+      // 4. グラフの描画設定
+      const ctx = document.getElementById('myPieChart').getContext('2d');
+      const myPieChart = new Chart(ctx, {
+          type: 'pie', // 円グラフを指定 ('doughnut'にするとドーナツ型になります)
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: 'データセット',
+                  data: data,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.7)',  // 赤
+                      'rgba(54, 162, 235, 0.7)',  // 青
+                      'rgba(255, 206, 86, 0.7)',  // 黄
+                      'rgba(75, 192, 192, 0.7)',  // 緑
+                      'rgba(153, 102, 255, 0.7)', // 紫
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  legend: {
+                      position: 'top',
+                  },
+                  title: {
+                      display: true,
+                      text: '出版社ランキング(上位5位)'
+                  }
+              }
+          }
+      });
+  </script>
 
 <h3>利用者 年代別 利用率</h3>
 <canvas id="ageChart"></canvas>

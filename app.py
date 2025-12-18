@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-from models import initialize_database
+from models import initialize_database, Publisher, Book
+from peewee import *
 from routes import blueprints
 from models import Borrow, Book, Publisher, User
 from peewee import fn
@@ -18,16 +19,15 @@ for blueprint in blueprints:
 @app.route('/')
 def index():
     # ① 出版社別 貸出回数
-    publisher_query = (
-        Publisher
-        .select(Publisher.name, fn.COUNT(Borrow.id).alias('cnt'))
-        .join(Book, on=(Book.publisher == Publisher.id))
-        .join(Borrow, on=(Borrow.book == Book.id))
-        .group_by(Publisher.name)
-    )
+    publisher_query = (Publisher
+        .select(Publisher.name, fn.COUNT(Book.id).alias('book_count'))
+        .join(Book)
+        .group_by(Publisher)
+        .order_by(fn.COUNT(Book.id).desc())
+        .limit(5))
 
     publisher_labels = [p.name for p in publisher_query]
-    publisher_values = [p.cnt for p in publisher_query]
+    publisher_values = [p.bookcount for p in publisher_query]
 
     # ② 年代別 利用率（10代・20代…）
     age_expr = fn.FLOOR(User.age / 10) * 10
