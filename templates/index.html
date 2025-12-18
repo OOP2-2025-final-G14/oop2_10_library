@@ -1,18 +1,24 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>図書館管理システム</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>図書館管理システム</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='base-style.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <h1>図書館管理システム</h1>
 
-<h1>図書館管理システム</h1>
+    <h2>📊 利用状況ダッシュボード</h2>
 
-<h2>📊 利用状況ダッシュボード</h2>
+    <h3>出版社別 貸出回数</h3>
+    <canvas id="publisherChart"></canvas>
 
+<<<<<<< Updated upstream
 <h3>出版社別 貸出回数</h3>
   <div class="chart-container">
     <canvas id="publisherChart"></canvas>
@@ -69,15 +75,25 @@
         }
     });
 </script>
+=======
+    <h3>利用者 年代別 利用率</h3>
+    <canvas id="ageChart"></canvas>
+>>>>>>> Stashed changes
 
-<h3>利用者 年代別 利用率</h3>
-<canvas id="ageChart"></canvas>
+    <h3>本ごとの 貸出回数ランキング</h3>
+    <canvas id="bookChart"></canvas>
 
-<h3>本ごとの 貸出回数ランキング</h3>
-<canvas id="bookChart"></canvas>
+    <hr />
 
-<hr>
+    <h2>📁 データ管理</h2>
+    <ul>
+      <li><a href="{{ url_for('user.list') }}">ユーザー管理</a></li>
+      <li><a href="{{ url_for('book.list') }}">本の登録</a></li>
+      <li><a href="{{ url_for('borrow.list') }}">本の貸し出し・返却</a></li>
+      <li><a href="{{ url_for('publisher.list') }}">出版社管理</a></li>
+    </ul>
 
+<<<<<<< Updated upstream
 <h2>📁 データ管理</h2>
 <ul>
   <li><a href="{{ url_for('user.list') }}">ユーザー管理</a></li>
@@ -100,4 +116,19 @@ new Chart(document.getElementById('bookChart'), {
 
 
 </body>
+=======
+    <script>
+
+      new Chart(document.getElementById('ageChart'),{
+          type:'pie',
+          data: {
+            labels: {{ age_labels | tojson }},
+            datasets: [{
+              data:{{age_values | tojson }}
+        }]
+        }
+      });
+    </script>
+  </body>
+>>>>>>> Stashed changes
 </html>
