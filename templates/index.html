@@ -20,9 +20,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    // 【修正1】 データ受け渡しの改善
-    // tojsonフィルターを通すだけで、正しいJS配列([ "A", "B" ])になります。
-    // クォートで囲ったり、splitする必要はありません。
       const publisher_labels = '{{ publisher_labels | tojson }}'.replace(/&quot;/g, '"').slice(1, -1).split(',');
       const publisher_data = `{{ publisher_values | tojson }}`.replace(/&quot;/g, '"').slice(1, -1).split(',').map(Number);
 
@@ -30,13 +27,12 @@
     const ctx = document.getElementById('publisherChart').getContext('2d');
     
     const publisherChart = new Chart(ctx, {
-        type: 'pie', 
-        // 【修正2】 ここから下のキー名はChart.jsの仕様通りである必要があります
+        type: 'pie', // 円グラフ
         data: {  // × publisher_data → ○ data
-            labels: publisher_labels, // × publisher_labels → ○ labels
+            labels: publisher_labels,
             datasets: [{
                 label: 'データセット',
-                data: publisher_data, // × publisher_data → ○ data
+                data: publisher_data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.7)',
                     'rgba(54, 162, 235, 0.7)',
