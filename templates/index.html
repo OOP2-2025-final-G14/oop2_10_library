@@ -31,39 +31,7 @@
   <li><a href="{{ url_for('publisher.list') }}">出版社管理</a></li>
 </ul>
 
-<script>
-new Chart(document.getElementById('publisherChart'), {
-  type: 'bar',
-  data: {
-    labels: {{ publisher_labels | tojson }},
-    datasets: [{
-      label: '貸出回数',
-      data: {{ publisher_values | tojson }}
-    }]
-  }
-});
 
-new Chart(document.getElementById('ageChart'), {
-  type: 'pie',
-  data: {
-    labels: {{ age_labels | tojson }},
-    datasets: [{
-      data: {{ age_values | tojson }}
-    }]
-  }
-});
-
-new Chart(document.getElementById('bookChart'), {
-  type: 'bar',
-  data: {
-    labels: {{ book_labels | tojson }},
-    datasets: [{
-      label: '貸出回数',
-      data: {{ book_values | tojson }}
-    }]
-  }
-});
-</script>
 
 </body>
 </html>
