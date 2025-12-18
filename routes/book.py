@@ -58,17 +58,4 @@ def edit(book_id):
     publishers = Publisher.select()
     return render_template('book_edit.html', book=book, publishers=publishers)
 
-@book_bp.route('/ranking')
-def ranking():
-    ranking = (
-        Borrow
-        .select(
-            Book,
-            fn.COUNT(Borrow.id).alias('borrow_count')
-        )
-        .join(Book)
-        .group_by(Book)
-        .order_by(fn.COUNT(Borrow.id).desc())
-    )
 
-    return render_template('book_ranking.html', ranking=ranking)
