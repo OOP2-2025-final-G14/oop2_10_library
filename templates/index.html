@@ -1,20 +1,69 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <title>図書館管理システム</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='base-style.css') }}"
-    />
-  </head>
-  <body>
-    <h1>図書館管理システム</h1>
-    <ul>
-      <li><a href="{{ url_for('user.list') }}">ユーザー</a></li>
-      <li><a href="{{ url_for('book.list') }}">本の登録</a></li>
-      <li><a href="{{ url_for('borrow.list') }}">本の貸し出し、返却</a></li>
-      <li><a href="{{ url_for('publisher.list') }}">出版社</a></li>
-    </ul>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>図書館管理システム</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>図書館管理システム</h1>
+
+<h2>📊 利用状況ダッシュボード</h2>
+
+<h3>出版社別 貸出回数</h3>
+<canvas id="publisherChart"></canvas>
+
+<h3>利用者 年代別 利用率</h3>
+<canvas id="ageChart"></canvas>
+
+<h3>本ごとの 貸出回数ランキング</h3>
+<canvas id="bookChart"></canvas>
+
+<hr>
+
+<h2>📁 データ管理</h2>
+<ul>
+  <li><a href="{{ url_for('user.list') }}">ユーザー管理</a></li>
+  <li><a href="{{ url_for('book.list') }}">本の登録</a></li>
+  <li><a href="{{ url_for('borrow.list') }}">本の貸し出し・返却</a></li>
+  <li><a href="{{ url_for('publisher.list') }}">出版社管理</a></li>
+</ul>
+
+<script>
+new Chart(document.getElementById('publisherChart'), {
+  type: 'bar',
+  data: {
+    labels: {{ publisher_labels | tojson }},
+    datasets: [{
+      label: '貸出回数',
+      data: {{ publisher_values | tojson }}
+    }]
+  }
+});
+
+new Chart(document.getElementById('ageChart'), {
+  type: 'pie',
+  data: {
+    labels: {{ age_labels | tojson }},
+    datasets: [{
+      data: {{ age_values | tojson }}
+    }]
+  }
+});
+
+new Chart(document.getElementById('bookChart'), {
+  type: 'bar',
+  data: {
+    labels: {{ book_labels | tojson }},
+    datasets: [{
+      label: '貸出回数',
+      data: {{ book_values | tojson }}
+    }]
+  }
+});
+</script>
+
+</body>
 </html>
