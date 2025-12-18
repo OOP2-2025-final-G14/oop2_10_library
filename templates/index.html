@@ -19,6 +19,7 @@
     <canvas id="publisherChart"></canvas>
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <h3>出版社別 貸出回数</h3>
   <div class="chart-container">
     <canvas id="publisherChart"></canvas>
@@ -117,6 +118,24 @@ new Chart(document.getElementById('bookChart'), {
 
 </body>
 =======
+=======
+    <h3>利用者 年代別 利用率</h3>
+    <canvas id="ageChart"></canvas>
+
+    <h3>本ごとの 貸出回数ランキング</h3>
+    <canvas id="bookChart"></canvas>
+
+    <hr />
+
+    <h2>📁 データ管理</h2>
+    <ul>
+      <li><a href="{{ url_for('user.list') }}">ユーザー管理</a></li>
+      <li><a href="{{ url_for('book.list') }}">本の登録</a></li>
+      <li><a href="{{ url_for('borrow.list') }}">本の貸し出し・返却</a></li>
+      <li><a href="{{ url_for('publisher.list') }}">出版社管理</a></li>
+    </ul>
+
+>>>>>>> Stashed changes
     <script>
 
       new Chart(document.getElementById('ageChart'),{
@@ -130,5 +149,8 @@ new Chart(document.getElementById('bookChart'), {
       });
     </script>
   </body>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 </html>
