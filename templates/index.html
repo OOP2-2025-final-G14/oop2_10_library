@@ -14,55 +14,60 @@
 
 <h3>出版社別 貸出回数</h3>
   <div class="chart-container">
-      <canvas id="myPieChart"></canvas>
-  </div>
+    <canvas id="publisherChart"></canvas>
+</div>
 
-  <script>
-      // Flaskから渡されたデータを受け取る
-      // | tojson を使うことで、PythonのリストをJSの配列に変換します
-      const labels = '{{ labels | tojson }}'.replace(/&quot;/g, '"').slice(1, -1).split(',');
-      const data = `{{ data | tojson }}`.replace(/&quot;/g, '"').slice(1, -1).split(',').map(Number);
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-      // グラフの描画設定
-      const ctx = document.getElementById('myPieChart').getContext('2d');
-      const myPieChart = new Chart(ctx, {
-          type: 'pie', // 円グラフを指定 
-          data: {
-              labels: labels,
-              datasets: [{
-                  label: 'データセット',
-                  data: data,
-                  backgroundColor: [
-                      'rgba(255, 99, 132, 0.7)',  // 赤
-                      'rgba(54, 162, 235, 0.7)',  // 青
-                      'rgba(255, 206, 86, 0.7)',  // 黄
-                      'rgba(75, 192, 192, 0.7)',  // 緑
-                      'rgba(153, 102, 255, 0.7)', // 紫
-                  ],
-                  borderColor: [
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 206, 86, 1)',
-                      'rgba(75, 192, 192, 1)',
-                      'rgba(153, 102, 255, 1)',
-                  ],
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              responsive: true,
-              plugins: {
-                  legend: {
-                      position: 'top',
-                  },
-                  title: {
-                      display: true,
-                      text: '出版社ランキング(上位5位)'
-                  }
-              }
-          }
-      });
-  </script>
+<script>
+    // 【修正1】 データ受け渡しの改善
+    // tojsonフィルターを通すだけで、正しいJS配列([ "A", "B" ])になります。
+    // クォートで囲ったり、splitする必要はありません。
+      const publisher_labels = '{{ publisher_labels | tojson }}'.replace(/&quot;/g, '"').slice(1, -1).split(',');
+      const publisher_data = `{{ publisher_values | tojson }}`.replace(/&quot;/g, '"').slice(1, -1).split(',').map(Number);
+
+    // グラフの描画設定
+    const ctx = document.getElementById('publisherChart').getContext('2d');
+    
+    const publisherChart = new Chart(ctx, {
+        type: 'pie', 
+        // 【修正2】 ここから下のキー名はChart.jsの仕様通りである必要があります
+        data: {  // × publisher_data → ○ data
+            labels: publisher_labels, // × publisher_labels → ○ labels
+            datasets: [{
+                label: 'データセット',
+                data: publisher_data, // × publisher_data → ○ data
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: '出版社ランキング(上位5位)'
+                }
+            }
+        }
+    });
+</script>
 
 <h3>利用者 年代別 利用率</h3>
 <canvas id="ageChart"></canvas>

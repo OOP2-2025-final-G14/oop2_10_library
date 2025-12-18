@@ -31,12 +31,14 @@ def index():
 
     # リスト内包表記で抽出（データがない場合は空リスト [] になる）
     publisher_labels = [p.name for p in publisher_results]
-    publisher_data = [getattr(p, 'borrow_count', 0) for p in publisher_results]
+    publisher_data = [p.borrow_count for p in publisher_results]
 
     # 空の場合のデフォルト値をセット
     if not publisher_labels:
         publisher_labels = ["データなし"]
         publisher_data = [0]
+
+    print("Publisher data:", publisher_labels, publisher_data)
 
     # ② 年代別 利用率（10代・20代…）
     age_expr = fn.FLOOR(User.age / 10) * 10
