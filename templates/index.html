@@ -13,91 +13,108 @@
   <body>
     <h1>図書館管理システム</h1>
 
-    <h2>📊 利用状況ダッシュボード</h2>
+    <h2>📊 利用状況</h2>
 
     <h3>出版社別 貸出回数</h3>
-    <canvas id="publisherChart"></canvas>
 
-  <div class="chart-container">
-    <canvas id="publisherChart"></canvas>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="chart-container">
+      <canvas id="publisherChart" width="400" height="400"></canvas>
+    </div>
 
-<script>
-    // 【修正1】 データ受け渡しの改善
-    // tojsonフィルターを通すだけで、正しいJS配列([ "A", "B" ])になります。
-    // クォートで囲ったり、splitする必要はありません。
-      const publisher_labels = '{{ publisher_labels | tojson }}'.replace(/&quot;/g, '"').slice(1, -1).split(',');
-      const publisher_data = `{{ publisher_values | tojson }}`.replace(/&quot;/g, '"').slice(1, -1).split(',').map(Number);
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    // グラフの描画設定
-    const ctx = document.getElementById('publisherChart').getContext('2d');
-    
-    const publisherChart = new Chart(ctx, {
-        type: 'pie', 
-        // 【修正2】 ここから下のキー名はChart.jsの仕様通りである必要があります
-        data: {  // × publisher_data → ○ data
-            labels: publisher_labels, // × publisher_labels → ○ labels
-            datasets: [{
-                label: 'データセット',
-                data: publisher_data, // × publisher_data → ○ data
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.7)',
-                    'rgba(54, 162, 235, 0.7)',
-                    'rgba(255, 206, 86, 0.7)',
-                    'rgba(75, 192, 192, 0.7)',
-                    'rgba(153, 102, 255, 0.7)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: '出版社ランキング(上位5位)'
+    <script>
+        // 【修正1】 データ受け渡しの改善
+        // tojsonフィルターを通すだけで、正しいJS配列([ "A", "B" ])になります。
+        // クォートで囲ったり、splitする必要はありません。
+          const publisher_labels = '{{ publisher_labels | tojson }}'.replace(/&quot;/g, '"').slice(1, -1).split(',');
+          const publisher_data = `{{ publisher_values | tojson }}`.replace(/&quot;/g, '"').slice(1, -1).split(',').map(Number);
+
+        // グラフの描画設定
+        const ctx = document.getElementById('publisherChart').getContext('2d');
+        
+        const publisherChart = new Chart(ctx, {
+            type: 'pie', 
+            // 【修正2】 ここから下のキー名はChart.jsの仕様通りである必要があります
+            data: {  // × publisher_data → ○ data
+                labels: publisher_labels, // × publisher_labels → ○ labels
+                datasets: [{
+                    label: 'データセット',
+                    data: publisher_data, // × publisher_data → ○ data
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: '出版社ランキング(上位5位)'
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
     <h3>利用者 年代別 利用率</h3>
-    <canvas id="ageChart"></canvas>
+    <canvas id="ageChart" width="400" height="400"></canvas>
+
+    <script>
+      const ageLabels = JSON.parse('{{ age_labels | tojson | safe }}');
+      const ageValues = JSON.parse('{{ age_values | tojson | safe }}');
+
+      new Chart(document.getElementById('ageChart'), {
+        type: 'pie',
+        data: {
+          labels: ageLabels,
+          datasets: [{
+            label: '利用回数',
+            data: ageValues
+          }]
+        },
+        options: {
+          responsive: false
+        }
+      });
+    </script>
 
 
     <h3>本ごとの 貸出回数ランキング</h3>
     <canvas id="bookChart"></canvas>
 
+    <script>
+      const bookLabels = JSON.parse('{{ book_labels | tojson | safe }}');
+      const bookValues = JSON.parse('{{ book_values | tojson | safe }}');
 
-<script>
-new Chart(document.getElementById('bookChart'), {
-  type: 'bar',
-  data: {
-    labels: {{ book_labels | tojson }},
-    datasets: [{
-      label: '貸出回数',
-      data: {{ book_values | tojson }}
-    }]
-  }
-});
-</script>
-
-
-</body>
-
+      new Chart(document.getElementById('bookChart'), {
+        type: 'bar',
+        data: {
+          labels: bookLabels,
+          datasets: [{
+            label: '貸出回数',
+            data: bookValues
+          }]
+        }
+      });
+    </script>
 
     <hr />
 
@@ -110,17 +127,6 @@ new Chart(document.getElementById('bookChart'), {
     </ul>
 
 
-    <script>
-
-      new Chart(document.getElementById('ageChart'),{
-          type:'pie',
-          data: {
-            labels: {{ age_labels | tojson }},
-            datasets: [{
-              data:{{age_values | tojson }}
-        }]
-        }
-      });
-    </script>
+    
   </body>
 </html>
