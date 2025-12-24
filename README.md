@@ -21,6 +21,8 @@
 
 ![library_app](https://github.com/user-attachments/assets/c283d912-065a-45c0-936f-a4aeb97a8f8e)
 
+これにより、実際に図書館管理アプリとして運用する際、人気な本や利用者のボリューム層が一目で分かり、新しい本の仕入れの目安となる。
+
 
 ## 動作条件: require
 
