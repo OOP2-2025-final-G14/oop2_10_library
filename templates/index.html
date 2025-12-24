@@ -9,18 +9,33 @@
       href="{{ url_for('static', filename='base-style.css') }}"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+    .pie-charts {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      }
+    </style>
   </head>
   <body>
     <h1>図書館管理システム</h1>
 
     <h2>📊 利用状況</h2>
 
-    <h3>出版社別 貸出回数</h3>
-
-
-    <div class="chart-container">
-      <canvas id="publisherChart" width="400" height="400"></canvas>
+    <div class="pie-charts">
+      <div>
+        <h3>出版社別 貸出回数</h3>
+        <div class="chart-container">
+        <canvas id="publisherChart" width="400" height="400"></canvas>
+      </div>
     </div>
+
+    <div>
+      <h3>利用者 年代別 利用率</h3>
+      <canvas id="ageChart" width="400" height="400"></canvas>
+    </div>
+  </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -74,8 +89,6 @@
         });
     </script>
 
-    <h3>利用者 年代別 利用率</h3>
-    <canvas id="ageChart" width="400" height="400"></canvas>
 
     <script>
       const ageLabels = JSON.parse('{{ age_labels | tojson | safe }}');
@@ -98,7 +111,7 @@
 
 
     <h3>本ごとの 貸出回数ランキング</h3>
-    <canvas id="bookChart"></canvas>
+    <canvas id="bookChart" width="800" height="400"></canvas>
 
     <script>
       const bookLabels = JSON.parse('{{ book_labels | tojson | safe }}');
